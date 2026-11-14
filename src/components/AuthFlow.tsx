@@ -650,104 +650,43 @@ export const AuthFlow: React.FC<AuthFlowProps> = ({
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -12 }}
                     transition={{ duration: 0.2 }}
-                    className="space-y-6"
+                    className="space-y-6 max-w-lg mx-auto py-4 text-center"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <div>
-                        <h2 className="text-lg font-bold text-[#0A2540]">
-                          Connect your self-custody wallet
-                        </h2>
-                        <p className="text-sm text-[#425466] mt-0.5">
-                          Spend straight from your wallet. Zero deposits or transfers needed.
-                        </p>
+                    <div>
+                      <h2 className="text-xl font-bold text-[#0A2540]">
+                        Connect your self-custody wallet
+                      </h2>
+                      <p className="text-sm text-[#425466] mt-1">
+                        Connect your Web3 wallet securely using WalletConnect to enable direct bitcoin spending.
+                      </p>
+                    </div>
+
+                    <div className="p-8 rounded-2xl bg-[#F6F9FC] border border-[#E3E8EE] flex flex-col items-center justify-center space-y-5">
+                      <div className="w-14 h-14 rounded-2xl bg-[#635BFF]/10 flex items-center justify-center text-[#635BFF]">
+                        <Wallet className="w-7 h-7" />
                       </div>
-                      <span className="font-mono text-xs font-semibold text-emerald-700">
-                        Required Deposit: $0.00
-                      </span>
-                    </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      {SUPPORTED_WALLETS.map((wallet) => {
-                        const selected = selectedWalletId === wallet.id;
-                        return (
-                          <button
-                            key={wallet.id}
-                            type="button"
-                            onClick={() => {
-                              setSelectedWalletId(wallet.id);
-                              setWalletConnected(false);
-                            }}
-                            className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
-                              selected
-                                ? 'border-[#635BFF] bg-[#635BFF]/5 shadow-xs'
-                                : 'border-[#E3E8EE] hover:bg-[#F6F9FC]'
-                            }`}
-                          >
-                            <div className="flex items-center justify-between mb-2">
-                              <WalletLogo walletId={wallet.id} className="w-5 h-5 text-[#0A2540]" />
-                              {selected && <CheckCircle2 className="w-4 h-4 text-[#635BFF]" />}
-                            </div>
-                            <div className="text-xs font-bold text-[#0A2540]">{wallet.name}</div>
-                            <div className="text-[11px] text-[#64748B] truncate">
-                              {wallet.category}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <div className="p-5 rounded-xl bg-[#F6F9FC] border border-[#E3E8EE] space-y-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                          <WalletLogo
-                            walletId={selectedWalletObj.id}
-                            className="w-7 h-7 text-[#0A2540]"
-                          />
-                          <div>
-                            <div className="text-sm font-bold text-[#0A2540]">
-                              {selectedWalletObj.name} · {selectedWalletObj.protocol}
-                            </div>
-                            <div className="text-xs text-[#425466]">
-                              Read-only balance check + scoped spend allowance
-                            </div>
-                          </div>
+                      <div className="space-y-1">
+                        <div className="text-sm font-bold text-[#0A2540]">
+                          Web3 Wallet Connection
                         </div>
-
-                        <button
-                          type="button"
-                          id="connect-wallet"
-                          data-connect-wallet
-                          onClick={handleSimulateWalletLink}
-                          disabled={connectingWallet || walletConnected}
-                          className={`connect-wallet px-4 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                            walletConnected
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-[#0A2540] hover:bg-[#173659] text-white'
-                          }`}
-                        >
-                          {connectingWallet
-                            ? 'Requesting signature...'
-                            : walletConnected
-                              ? `${selectedWalletObj.name} Linked`
-                              : `Authorize ${selectedWalletObj.name}`}
-                        </button>
+                        <div className="text-xs text-[#425466]">
+                          Click below to initiate your WalletConnect session.
+                        </div>
                       </div>
 
-                      <div>
-                        <label className="block text-xs font-semibold text-[#425466] mb-1">
-                          Wallet public address (optional override for team testing)
-                        </label>
-                        <input
-                          type="text"
-                          value={customAddress}
-                          onChange={(e) => setCustomAddress(e.target.value)}
-                          placeholder={selectedWalletObj.sampleAddress}
-                          className="w-full px-3.5 py-2 text-xs font-mono bg-white border border-[#E3E8EE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#635BFF]"
-                        />
-                      </div>
+                      <button
+                        type="button"
+                        id="connect-wallet"
+                        data-connect-wallet
+                        className="connect-wallet w-full sm:w-auto min-w-[220px] px-6 py-3 text-sm font-semibold text-white bg-[#635BFF] hover:bg-[#5249F5] active:bg-[#4E46E5] rounded-xl transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2"
+                      >
+                        <Wallet className="w-4 h-4" />
+                        <span>Connect Wallet</span>
+                      </button>
                     </div>
 
-                    <div className="flex items-center justify-between pt-2">
+                    <div className="flex items-center justify-between pt-4">
                       <button
                         type="button"
                         onClick={() => setRegStep(2)}
@@ -758,7 +697,7 @@ export const AuthFlow: React.FC<AuthFlowProps> = ({
                       <button
                         type="button"
                         onClick={() => setRegStep(4)}
-                        className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-[#635BFF] hover:bg-[#5249F5] rounded-lg transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-6 py-3 text-sm font-semibold text-white bg-[#635BFF] hover:bg-[#5249F5] rounded-xl transition-colors cursor-pointer shadow-sm"
                       >
                         <span>Continue to Apple Pay &amp; Google Pay</span>
                         <ChevronRight className="w-4 h-4" />
